@@ -98,8 +98,8 @@ public class KycFormFillingDateRange {
             SimpleFormatter formatter = new SimpleFormatter();
             loggerFile.setFormatter(formatter);
             logger.setUseParentHandlers(false);
-        } catch (IOException e) {
-            logger.info(e.getMessage());
+        } catch (IOException ioException) {
+            logger.info(ioException.getMessage());
         }
     }
 
@@ -122,8 +122,8 @@ public class KycFormFillingDateRange {
 
             return getValidFormFillingRange(signUpDate, presentDate);
 
-        } catch (DateTimeException e) {
-            logger.info(e.getMessage());
+        } catch (DateTimeException dateTimeException) {
+            logger.info(dateTimeException.getMessage());
         } finally {
             if(loggerFile != null) {
                 loggerFile.close();
@@ -145,7 +145,6 @@ public class KycFormFillingDateRange {
             String currentDateInString = scanner.next();
 
             String range = getFormFillingRange(signUpDateInString, currentDateInString);
-            logger.info("In main function");
             logger.info(range);
         }
     }
