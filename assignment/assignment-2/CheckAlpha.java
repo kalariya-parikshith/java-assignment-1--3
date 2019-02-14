@@ -1,7 +1,10 @@
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 class CheckAlpha{
-
+	
+	private static Logger logger = Logger.getLogger("CheckAlpha log");
+	
 	/**
 	 * Checks if the string contains all the english alphabets (case-insensitive)
 	 * @param str string to be checked
@@ -25,12 +28,12 @@ class CheckAlpha{
 	 */
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter string");
+		logger.info("Enter string");
 		String stringToBeChecked = scanner.nextLine();
 		if (containsAllAlphabets(stringToBeChecked)) {
-			System.out.println("Input string has all the alphabets");
+			logger.info("Input string has all the alphabets");
 		} else {
-			System.out.println("Input string doesn't have all the alphabets");
+			logger.info("Input string doesn't have all the alphabets");
 		}
 	}
 }
