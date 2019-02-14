@@ -1,58 +1,58 @@
-import java.util.Scanner;
 import java.io.File;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.regex.PatternSyntaxException;
+import java.util.logging.Logger;
 import java.util.NoSuchElementException;
+import java.util.regex.PatternSyntaxException;
 
 public class FileSearch {
 
-    private static String regEx;
     private static Pattern pattern;
-    private static Matcher matcher;
     private static final String HOME_DIR = System.getProperty("user.home");
-
+    private static Logger logger = Logger.getLogger("FileSearch log");
 
     /**
-     * Finds the file name matching with the regular expression and displays its absolute path
-     * @param regEx is the regular expression which is entered by the user
+     * Finds the file name matching with the regular expression and 
+     * displays its absolute path
+     * 
+     * @param regularExpression is the regular expression which is entered by the user
      * @param currentDirectory directory to be searched
      */
-    public static void findFile(String regEx, File currentDirectory) {
+    public static void findFile(String regularExpression, File currentDirectory) {
         File[] listOfFiles = currentDirectory.listFiles();
+        //if directory is empty
+        if(listOfFiles == null) 
+            return;
         for(File file : listOfFiles) {
             if (file.isDirectory()) {
-                findFile(regEx, file);
+                findFile(regularExpression, file);
             } else {
-                matcher = pattern.matcher(file.getName());
-                if(matcher.matches()){
-                    System.out.println(file.getAbsolutePath());
+                if(pattern.matcher(file.getName()).matches()){
+                    logger.info(file.getAbsolutePath());
                 }
             }
         }
     }
 
     /**
-     * Takes regular expression as input from user and findes the file
+     * Takes regular expression as input from user and finds the file
      * matching the regular expression
      */
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter regular expression");
+        logger.info("Enter regular expression");
         
         while (scanner.hasNext()) {
-            regEx = scanner.next();
+            String regularExpression = scanner.next();
             try {
-                pattern = Pattern.compile(regEx);
-                findFile(regEx, (new File(HOME_DIR)) );
+                pattern = Pattern.compile(regularExpression);
+                findFile(regularExpression, (new File(HOME_DIR)) );
             } catch (PatternSyntaxException patternSyntaxException) {
-                System.out.println("Please enter valid regular expression");
+                logger.info("Please enter valid regular expression");
             }
-            
-            System.out.println("Search another file or cntl D to exit");
+            logger.info("Search another file or cntl D to exit");
         }
     }
 }
-
-
